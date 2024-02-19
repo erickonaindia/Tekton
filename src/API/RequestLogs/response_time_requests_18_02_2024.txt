@@ -1,0 +1,3 @@
+2/18/2024 10:16:38 PM - Tekton Request: GetProductByIdQuery (98 milliseconds) UserId: 37a0e946-76f4-4003-a057-97296fb654ee Request: GetProductByIdQuery { Id = 1 }
+2/18/2024 10:16:56 PM - Tekton Request: CreateProductCommand (1006 milliseconds) UserId: 37a0e946-76f4-4003-a057-97296fb654ee Request: CreateProductCommand { Name = producto, StatusName = active, Description = string, Stock = 10, Price = 10 }
+2/18/2024 10:17:01 PM - Tekton Request: GetProductByIdQuery (6 milliseconds) UserId: 37a0e946-76f4-4003-a057-97296fb654ee Request: GetProductByIdQuery { Id = 1 }
