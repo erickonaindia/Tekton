@@ -1,4 +1,5 @@
 ﻿using Tekton.Application.Common.Interfaces;
+using Tekton.Application.Products.Common;
 using Tekton.Application.Products.Dtos;
 using Tekton.Domain.Entities;
 using Tekton.Domain.Events;
@@ -34,7 +35,7 @@ internal class CreateProductCommandHandler : IRequestHandler<CreateProductComman
             Description = request.Description,
             Name = request.Name,
             Price = request.Price,
-            Status = _status.FirstOrDefault(x=>x.Value.ToLower() == request.StatusName.ToLower()).Key,
+            Status = _status.FirstOrDefault(x => string.Equals(x.Value, request.StatusName, StringComparison.OrdinalIgnoreCase)).Key,
             Stock = request.Stock,
             Discount = _discount,
             FinalPrice = _finalPrice,
@@ -46,8 +47,7 @@ internal class CreateProductCommandHandler : IRequestHandler<CreateProductComman
 
         await _context.SaveChangesAsync(cancellationToken);
 
-        return await _context.Products
-           .ProjectTo<ProductDto>(_mapper.ConfigurationProvider)
-           .FirstAsync(x => x.Id == entity.Id);
+        return MapToProductDTO.MapEntityToProductDTO(entity, _status);
+
     }
 }

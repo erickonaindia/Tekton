@@ -1,4 +1,5 @@
 ﻿using Tekton.Application.Common.Interfaces;
+using Tekton.Application.Products.Common;
 using Tekton.Application.Products.Dtos;
 
 namespace Tekton.Application.Products.Commands.CreateProduct;
@@ -36,14 +37,11 @@ internal class UpdateProductCommandHandler : IRequestHandler<UpdateProductComman
         entity.Stock = request.Stock;
         entity.Price = request.Price;
         entity.Name = request.Name;
-        entity.Status = _status.FirstOrDefault(x => x.Value.ToLower() == request.StatusName.ToLower()).Key;
+        entity.Status = _status.FirstOrDefault(x => string.Equals(x.Value, request.StatusName, StringComparison.OrdinalIgnoreCase)).Key;
         entity.FinalPrice = _finalPrice;
 
         await _context.SaveChangesAsync(cancellationToken);
 
-        return await _context.Products
-           .ProjectTo<ProductDto>(_mapper.ConfigurationProvider)
-           .FirstAsync(x => x.Id == entity.Id);
-
+        return MapToProductDTO.MapEntityToProductDTO(entity, _status);
     }
 }
